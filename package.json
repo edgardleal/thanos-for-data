@@ -1,6 +1,6 @@
 {
   "name": "thanos-for-data",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
@@ -29,6 +29,7 @@
   },
   "dependencies": {},
   "jest": {
+    "collectCoverageFrom": ["index.ts"],
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },

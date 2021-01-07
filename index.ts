@@ -8,6 +8,23 @@
  */
 
 /**
+ * isArray
+ * Check if a given parameter is an valid array
+ *
+ * @author edgardleal@gmail.com
+ * @since 07.01.21
+ */
+export function isArray(param: any): boolean {
+  if (!param) {
+    return false;
+  }
+  if (param.length !== undefined) {
+    return true;
+  }
+  return false;
+}
+
+/**
  * Return a range sort for a givem list
  */
 export function shuffleList<T = any>(params: T[]): T[] {
@@ -15,7 +32,7 @@ export function shuffleList<T = any>(params: T[]): T[] {
   const result: T[] = [];
 
   while (copy.length) {
-    const index = Math.round(Math.random() * copy.length);
+    const index = Math.floor(Math.random() * copy.length);
     const value = copy[index];
     copy.splice(index, 1);
     result.push(value);
@@ -52,9 +69,23 @@ export const DEFAULT_CONFIGURATION: ThanosParameter = {
  * Random delte half of object properties
  */
 export default function thanos<T = any>(param: T, parameters: ThanosParameter = {}): T {
+  if (isArray(param)) {
+    if ((param as unknown as any[]).length === 1) {
+      if (Math.round(Math.random() * 1)) {
+        return [] as unknown as T;
+      }
+      return param;
+    }
+    const arrayResult = shuffleList(param as unknown as any[]);
+    const halfCount = Math.round(arrayResult.length / 2);
+    return (arrayResult.splice(0, halfCount)) as unknown as T;
+  }
   const keys: string[] = Object.keys(param);
   const halfCount = Math.round(keys.length / 2);
-  const shuffledFields = shuffleList(keys).splice(halfCount, halfCount + 1);
+  const shuffledFields = shuffleList(keys).splice(0, halfCount);
+  const result: T = {
+    ...param,
+  };
   const { action } = {
     ...DEFAULT_CONFIGURATION,
     ...parameters,
@@ -64,16 +95,16 @@ export default function thanos<T = any>(param: T, parameters: ThanosParameter = 
 
   for (let i = 0; i < shuffledFields.length; i += 1) {
     const item = shuffledFields[i];
-    actionFunction(item, param as any);
+    actionFunction(item, result as any);
   }
 
   const remainingFields = Object.keys(param);
   for (let i = 0; i < remainingFields.length; i += 1) {
     const field = remainingFields[i];
     if (typeof (param as any)[field] === 'object') {
-      thanos((param as any)[field]);
+      (result as any)[field] = thanos((param as any)[field]);
     }
   }
 
-  return param;
+  return result;
 }
