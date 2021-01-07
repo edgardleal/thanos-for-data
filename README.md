@@ -1,6 +1,8 @@
 
 # Thanos for Data
 
+![Tests](https://github.com/edgardleal/thanos-for-data/workflows/Node.js%20CI/badge.svg)
+
 This library will remove the half of properties on a given object.
 
 ## Purpose

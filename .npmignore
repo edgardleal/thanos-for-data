@@ -1,4 +1,8 @@
 coverage/
+tsconfig.json
+Makefile
+index.test.ts
+dist/index.test.js
 .*.swp
 ._*
 .DS_Store
