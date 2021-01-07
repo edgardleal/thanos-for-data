@@ -8,6 +8,12 @@
     "build": "tsc",
     "lint": "eslint  './**/*.ts'"
   },
+  "description": "This library will remove the half of properties in a given object",
+  "keywords": ["test", "data", "mock"],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/edgardleal/thanos-for-data"
+  },
   "devDependencies": {
     "@types/debug": "^4.1.5",
     "@types/jest": "^26.0.19",
